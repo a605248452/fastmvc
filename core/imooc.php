@@ -9,7 +9,6 @@ class imooc
 	public static function run()
 	{
 		\core\lib\log::init();
-		\core\lib\log::log('test');
 		$route = new \core\lib\route();
 		$ControllerName = ucfirst($route->controller);
 		$ActionName = $route->action;
@@ -19,6 +18,7 @@ class imooc
 			include $ControllerFile;
 			$controller = new $ControllerClass();
 			$controller->$ActionName();
+			\core\lib\log::log('Controller:'.$ControllerName.'       '.'Action:'.$ActionName);
 		}else{
 			throw new \Exception("找不到控制器".$ControllerName);	
 		}
@@ -52,11 +52,18 @@ class imooc
 
 	public function display($file)
 	{
+		$views = $file;
 		$file = APP . '/views/' . $file;
 		if(is_file($file))
 		{
-			extract($this->assign);
-			include $file;
+			\Twig_Autoloader::register();
+			$loader = new \Twig_Loader_Filesystem(APP."/views");
+			$twig = new \Twig_Environment($loader, array(
+				'cache' => IMOOC.'/log/twig',
+				'debug'	=> DEBUG
+			));
+			$template = $twig->loadTemplate($views);
+			$template->display($this->assign?$this->assign:array());
 		}
 	}
 }

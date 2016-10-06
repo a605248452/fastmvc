@@ -1,8 +1,11 @@
 <?php
 return array(
-    'DB_HOST'=>'localhost',
-    'DB_USER'=>'root',
-    'DB_PWD'=>'root',
-    'DB_NAME'=>'laravel',
-    'CHARSET'=>'utf8',
+    'database_type'=>'mysql',
+    'database_name'=>'laravel',
+    'server'=>'localhost',
+    'username'=>'root',
+    'password'=>'root',
+    'charset'=>'utf8',
+    'port' => 3306,
+    'prefix' => ''
 );
