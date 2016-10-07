@@ -44,6 +44,16 @@ class PlainTextHandler extends Handler
     /**
      * @var bool
      */
+    private $onlyForCommandLine = false;
+
+    /**
+     * @var bool
+     */
+    private $outputOnlyIfCommandLine = true;
+
+    /**
+     * @var bool
+     */
     private $loggerOnly = false;
 
     /**
@@ -140,6 +150,34 @@ class PlainTextHandler extends Handler
     }
 
     /**
+     * Restrict error handling to command line calls.
+     * @param  bool|null $onlyForCommandLine
+     * @return null|bool
+     */
+    public function onlyForCommandLine($onlyForCommandLine = null)
+    {
+        if (func_num_args() == 0) {
+            return $this->onlyForCommandLine;
+        }
+        $this->onlyForCommandLine = (bool) $onlyForCommandLine;
+    }
+
+    /**
+     * Output the error message only if using command line.
+     * else, output to logger if available.
+     * Allow to safely add this handler to web pages.
+     * @param  bool|null $outputOnlyIfCommandLine
+     * @return null|bool
+     */
+    public function outputOnlyIfCommandLine($outputOnlyIfCommandLine = null)
+    {
+        if (func_num_args() == 0) {
+            return $this->outputOnlyIfCommandLine;
+        }
+        $this->outputOnlyIfCommandLine = (bool) $outputOnlyIfCommandLine;
+    }
+
+    /**
      * Only output to logger.
      * @param  bool|null $loggerOnly
      * @return null|bool
@@ -154,12 +192,31 @@ class PlainTextHandler extends Handler
     }
 
     /**
+     * Check, if possible, that this execution was triggered by a command line.
+     * @return bool
+     */
+    private function isCommandLine()
+    {
+        return PHP_SAPI == 'cli';
+    }
+
+    /**
+     * Test if handler can process the exception..
+     * @return bool
+     */
+    private function canProcess()
+    {
+        return $this->isCommandLine() || !$this->onlyForCommandLine();
+    }
+
+    /**
      * Test if handler can output to stdout.
      * @return bool
      */
     private function canOutput()
     {
-        return !$this->loggerOnly();
+        return ($this->isCommandLine() || ! $this->outputOnlyIfCommandLine())
+            && ! $this->loggerOnly();
     }
 
     /**
@@ -240,6 +297,10 @@ class PlainTextHandler extends Handler
      */
     public function handle()
     {
+        if (! $this->canProcess()) {
+            return Handler::DONE;
+        }
+
         $exception = $this->getException();
 
         $response = sprintf("%s: %s in file %s on line %d%s\n",
@@ -258,7 +319,8 @@ class PlainTextHandler extends Handler
             return Handler::DONE;
         }
 
-        if (\Whoops\Util\Misc::canSendHeaders()) {
+        if (class_exists('\Whoops\Util\Misc')
+            && \Whoops\Util\Misc::canSendHeaders()) {
             header('Content-Type: text/plain');
         }
 
