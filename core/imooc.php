@@ -6,10 +6,12 @@ class imooc
 {
 	public static $classMap = array();
 	protected $assign;
+	public static $host;
 	public static function run()
 	{
 		\core\lib\log::init();
 		$route = new \core\lib\route();
+		self::$host = $route->host;
 		$ControllerName = ucfirst($route->controller);
 		$ActionName = $route->action;
 		$ControllerFile = APP . '/controllers/' . $ControllerName . 'Controller.php';
@@ -47,6 +49,10 @@ class imooc
 
 	public function assign($name,$value)
 	{
+		if(!isset($this->assign['host']))
+		{
+			$this->assign['host'] = self::$host;
+		}
 		$this->assign[$name] = $value;
 	}
 
@@ -63,7 +69,8 @@ class imooc
 				'debug'	=> DEBUG
 			));
 			$template = $twig->loadTemplate($views);
-			$template->display($this->assign?$this->assign:array());
+			$template->display($this->assign?$this->assign:array('host'=>self::$host));
 		}
 	}
+
 }

@@ -8,8 +8,8 @@
 <header>
     <h1>超简单留言板</h1>
     <div>
-        <a href="/">所有留言</a>
-        <a href="/index/add">添加留言</a>
+        <a href="{{host}}">所有留言</a>
+        <a href="{{host}}index/add">添加留言</a>
     </div>
 </header>
 <div>

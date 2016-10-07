@@ -1,6 +1,6 @@
-{% extends "layout.html" %}
+{% extends "layout.php" %}
 {% block content %}
-<form action="/index/save" method="post">
+<form action="{{host}}index/save" method="post">
     <fieldset>
         <legend>添加留言</legend>
         <div>

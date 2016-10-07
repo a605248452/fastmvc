@@ -7,6 +7,7 @@ class route
 {
 	public $controller;
 	public $action;
+	public $host;
 	
 	public function __construct()
 	{
@@ -16,9 +17,18 @@ class route
 		 * 2.获取url 参数部分
 		 * 3.返回对应的控制器和方法
 		 */
-		if(isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] != '/')
+		$host = $this->action = conf::get('APP_HOST','web');
+		if(empty($host))
 		{
-			$path = $_SERVER['REQUEST_URI'];
+			$host = 'http://'.$_SERVER['HTTP_HOST'].'/';
+		}
+		$this->host = $host;
+		$http = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+		$request = str_replace($host,'/',$http);
+		
+		if($request != '/')
+		{
+			$path = $request;
 			$patharr = explode('/', trim($path, '/'));
 			if(isset($patharr[0])){
 				$this->controller = $patharr[0];

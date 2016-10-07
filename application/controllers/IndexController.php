@@ -12,13 +12,13 @@ class IndexController extends \core\imooc
 		$guestbook = new guestbookModel();
 		$data = $guestbook->all();
 		$this->assign('data',$data);
-		$this->display('index.html');
+		$this->display('index.php');
 	}
 
 	//添加留言
 	public function add()
 	{
-		$this->display('add.html');
+		$this->display('add.php');
 	}
 
 	//保存留言

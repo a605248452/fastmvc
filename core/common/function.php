@@ -44,7 +44,19 @@ function post($name, $default = false, $fitt = false)
 
 function jump($url)
 {
-	header('location:'.$url);
+	$host = \core\lib\conf::get('APP_HOST','web');
+	if(empty($host))
+	{
+		$host = 'http://'.$_SERVER['HTTP_HOST'].'/';
+	}
+	if($url!='/')
+	{
+		header('location:'.$host.$url);
+	}
+	else
+	{
+		header('location:'.$host);
+	}
 	exit();
 }
 
