@@ -2,16 +2,16 @@
 
 namespace core;
 
+use \core\lib\route;
+
 class imooc
 {
 	public static $classMap = array();
 	protected $assign;
-	public static $host;
 	public static function run()
 	{
 		\core\lib\log::init();
-		$route = new \core\lib\route();
-		self::$host = $route->host;
+		$route = new route();
 		$ControllerName = ucfirst($route->controller);
 		$ActionName = $route->action;
 		$ControllerFile = APP . '/controllers/' . $ControllerName . 'Controller.php';
@@ -51,7 +51,7 @@ class imooc
 	{
 		if(!isset($this->assign['host']))
 		{
-			$this->assign['host'] = self::$host;
+			$this->assign['host'] = route::$hosts;
 		}
 		$this->assign[$name] = $value;
 	}
@@ -69,7 +69,7 @@ class imooc
 				'debug'	=> DEBUG
 			));
 			$template = $twig->loadTemplate($views);
-			$template->display($this->assign?$this->assign:array('host'=>self::$host));
+			$template->display($this->assign?$this->assign:array('host'=>route::$hosts));
 		}
 	}
 

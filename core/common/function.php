@@ -14,47 +14,31 @@ function post($name, $default = false, $fitt = false)
 {
 	if(isset($_POST[$name]))
 	{
-		if($fitt)
-		{
-			switch ($fitt)
-			{
+		if($fitt) {
+			switch ($fitt) {
 				case "int":
-					if(is_numeric($_POST[$name]))
-					{
+					if(is_numeric($_POST[$name])) {
 						return $_POST[$name];
-					}
-					else
-					{
+					} else {
 						return $default;
 					}
 				break;
 				default: ;
 			}
-		}
-		else
-		{
+		} else {
 			return $_POST[$name];
 		}
-	}
-	else
-	{
+	} else {
 		return $default;
 	}
 }
 
 function jump($url)
 {
-
-	$document_root = $_SERVER['DOCUMENT_ROOT'];
-	$script_filename = $_SERVER['SCRIPT_FILENAME'];
-	$host = 'http://'.$_SERVER['HTTP_HOST'].str_replace('index.php','',str_replace($document_root,'',$script_filename));
-	
-	if($url!='/')
-	{
+	$host = \core\lib\route::$hosts;
+	if($url!='/') {
 		header('location:'.$host.$url);
-	}
-	else
-	{
+	} else {
 		header('location:'.$host);
 	}
 	exit();
@@ -62,32 +46,22 @@ function jump($url)
 
 function get($name, $default = false, $fitt = false)
 {
-	if(isset($_GET[$name]))
-	{
-		if($fitt)
-		{
-			switch ($fitt)
-			{
+	if(isset($_GET[$name])) {
+		if($fitt) {
+			switch ($fitt) {
 				case "int":
-					if(is_numeric($_GET[$name]))
-					{
+					if(is_numeric($_GET[$name])) {
 						return $_GET[$name];
-					}
-					else
-					{
+					} else {
 						return $default;
 					}
 					break;
 				default: ;
 			}
-		}
-		else
-		{
+		} else {
 			return $_GET[$name];
 		}
-	}
-	else
-	{
+	} else {
 		return $default;
 	}
 }

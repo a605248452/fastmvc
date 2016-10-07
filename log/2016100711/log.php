@@ -1,5 +1,0 @@
-2016-10-07 11:12:01"Controller:Index       Action:index"
-2016-10-07 11:31:00"Controller:Index       Action:index"
-2016-10-07 11:31:05"Controller:Index       Action:index"
-2016-10-07 11:31:06"Controller:Index       Action:add"
-2016-10-07 11:31:09"Controller:Index       Action:index"

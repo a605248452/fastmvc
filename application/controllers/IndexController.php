@@ -29,12 +29,9 @@ class IndexController extends \core\imooc
 		$data['creattime'] = time();
 		$guestbook = new guestbookModel();
 		$ret = $guestbook->addOne($data);
-		if($ret)
-		{
+		if($ret) {
 			jump('/');
-		}
-		else
-		{
+		} else {
 			p('error');
 		}
 
@@ -44,20 +41,15 @@ class IndexController extends \core\imooc
 	{
 		$id = get('id',0,'int');
 
-		if($id)
-		{
+		if($id) {
 			$guestbook = new guestbookModel();
 			$ret = $guestbook->delOne($id);
-			if($ret)
-			{
+			if($ret) {
 				jump('/');
-			}else
-			{
+			} else {
 				p('删除失败');
 			}
-		}
-		else
-		{
+		} else {
 			p('参数错误');
 		}
 	}

@@ -7,7 +7,7 @@ class route
 {
 	public $controller;
 	public $action;
-	public $host;
+	public static $hosts;
 	
 	public function __construct()
 	{
@@ -21,12 +21,11 @@ class route
 		$document_root = $_SERVER['DOCUMENT_ROOT'];
 		$script_filename = $_SERVER['SCRIPT_FILENAME'];
 		$host = 'http://'.$_SERVER['HTTP_HOST'].str_replace('index.php','',str_replace($document_root,'',$script_filename));
-		$this->host = $host;
+		self::$hosts = $host;
 		$http = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		$request = str_replace($host,'/',$http);
 		
-		if($request != '/')
-		{
+		if($request != '/') {
 			$path = $request;
 			$patharr = explode('/', trim($path, '/'));
 			if(isset($patharr[0])){
@@ -45,15 +44,12 @@ class route
 			$count = count($patharr) + 2;
 			$i = 2;
 			while ($i < $count) {
-				if(isset($patharr[$i + 1]))
-				{
+				if(isset($patharr[$i + 1])) {
 					$_GET[$patharr[$i]] = $patharr[$i + 1];
 				}
 				$i += 2 ;
 			}
-		}
-		else
-		{
+		} else {
 			$this->controller = conf::get('DEFAULT_CONTROLLER','route');
 			$this->action = conf::get('DEFAULT_ACTION','route');
 		}
