@@ -19,7 +19,7 @@ class file
          * 2.写入日志
          */
         if(!is_dir($this->path.date('YmdH'))) {
-            mkdir($this->path.date('YmdH',0777,true));
+            mkdir($this->path.date('YmdH'),0777,true);
             chmod($this->path.date('YmdH'),0777);
         }
 
