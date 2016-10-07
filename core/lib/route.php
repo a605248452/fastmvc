@@ -17,11 +17,10 @@ class route
 		 * 2.获取url 参数部分
 		 * 3.返回对应的控制器和方法
 		 */
-		$host = $this->action = conf::get('APP_HOST','web');
-		if(empty($host))
-		{
-			$host = 'http://'.$_SERVER['HTTP_HOST'].'/';
-		}
+		p($_SERVER);die;
+		$document_root = $_SERVER['DOCUMENT_ROOT'];
+		$script_filename = $_SERVER['SCRIPT_FILENAME'];
+		$host = 'http://'.$_SERVER['HTTP_HOST'].str_replace('index.php','',str_replace($document_root,'',$script_filename));
 		$this->host = $host;
 		$http = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		$request = str_replace($host,'/',$http);
