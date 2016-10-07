@@ -17,7 +17,7 @@ class route
 		 * 2.获取url 参数部分
 		 * 3.返回对应的控制器和方法
 		 */
-		p($_SERVER);die;
+		
 		$document_root = $_SERVER['DOCUMENT_ROOT'];
 		$script_filename = $_SERVER['SCRIPT_FILENAME'];
 		$host = 'http://'.$_SERVER['HTTP_HOST'].str_replace('index.php','',str_replace($document_root,'',$script_filename));
