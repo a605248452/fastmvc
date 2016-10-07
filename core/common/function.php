@@ -44,11 +44,11 @@ function post($name, $default = false, $fitt = false)
 
 function jump($url)
 {
-	$host = \core\lib\conf::get('APP_HOST','web');
-	if(empty($host))
-	{
-		$host = 'http://'.$_SERVER['HTTP_HOST'].'/';
-	}
+
+	$document_root = $_SERVER['DOCUMENT_ROOT'];
+	$script_filename = $_SERVER['SCRIPT_FILENAME'];
+	$host = 'http://'.$_SERVER['HTTP_HOST'].str_replace('index.php','',str_replace($document_root,'',$script_filename));
+	
 	if($url!='/')
 	{
 		header('location:'.$host.$url);
