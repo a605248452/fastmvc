@@ -7,7 +7,7 @@
  */
 header("content-type:text/html;charset=utf-8");
 
-define('IMOOC', realpath(''));
+define('IMOOC', str_replace('\\', '/' , __DIR__));
 define('CORE', IMOOC.'/core');
 define('APP', IMOOC.'/application');
 define('MODULE', 'application');
