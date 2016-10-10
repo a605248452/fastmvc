@@ -29,4 +29,10 @@ class guestbookModel extends model
         }
     }
 
+    public function getOne($id)
+    {
+        return  $this->get($this->table,'*',array('id'=>$id));
+
+    }
+
 }

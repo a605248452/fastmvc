@@ -11,6 +11,7 @@ class imooc
 	public static function run()
 	{
 		\core\lib\log::init();
+		session_start();
 		$route = new route();
 		$ControllerName = ucfirst($route->controller);
 		$ActionName = $route->action;

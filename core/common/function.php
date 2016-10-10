@@ -37,6 +37,7 @@ function jump($url)
 {
 	$host = \core\lib\route::$hosts;
 	if($url!='/') {
+		echo 1;die;
 		header('location:'.$host.$url);
 	} else {
 		header('location:'.$host);
